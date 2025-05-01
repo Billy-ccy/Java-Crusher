@@ -1,0 +1,116 @@
+心得:今晚8:00 - 11:30
+学习了四个视频 StringBuilder  StringJoiner  字符串底层原理  罗马数字转化(自己花了半个小时,写出来的,明天再看教程视频)
+不足:写代码时间没能掌握住,下次写代码规定时间,20分钟思路+代码
+package StringBuilder;
+
+public class StringBuilder1 {
+    public static void main(String[] args) {
+        StringBuilder sb = new StringBuilder();
+//普及:
+//因为stringBuilder是Java已经写好的类
+// java在底层对他做了一些特殊处理。
+// 打印对象不是地址值而是属性值。
+
+
+        //添加数据
+        sb.append(1);
+        sb.append(true);
+        sb.append("abc");
+        System.out.println(sb);
+        //返回长度
+        int len = sb.length();
+        System.out.println(len);
+        //反转
+        sb.reverse();
+        System.out.println(sb);
+        //将StringBuilder转成String
+        String s = sb.toString();
+        System.out.println(s);
+    }
+}
+package StringBuilder;
+
+import java.util.Scanner;
+
+public class StringBuilder2 {
+    public static void main(String[] args) {
+        //1.定义一个方法，把int数组中的数据按照指定的格式拼接成一个字符串返回调用该方法，
+//        并在控制台输出结果。
+//        例如:
+//        数组为 int[] arr ={1,2,3};
+//        执行方法后的输出结果为:[1,2,3]
+
+        //新建一个数组
+        int[] arr = {1,2,3};
+        String s = arrToString(arr);
+        System.out.println(s);
+
+        //2.需求:键盘接受一个字符串，程序判断出该字符串是否是对称字符串，
+        // 并在控制台打印是或不是对称字符串:123321、111
+        //非对称字符串:123123
+
+        Scanner sc = new Scanner(System.in);
+        System.out.println("请输入一个字符串");
+        String str = sc.next();
+        //建一个SB对象,相当于一个容器,内容可以发生改变
+        StringBuilder sb = new StringBuilder();
+        //链式编程 添加数据 反转 转成String
+        String s1 = sb.append(str).reverse().toString();
+        //比较
+        if(s1.equals(str)){
+            System.out.println("这个字符串是对称字符串");
+        }else{
+            System.out.println("这个字符串不是对称字符串");
+        }
+    }
+    public static String arrToString(int[] arr){
+       StringBuilder sb = new StringBuilder();
+       sb.append("[");
+        for (int i = 0; i < arr.length; i++) {
+
+            if(i == arr.length-1){
+                sb.append(arr[i]);
+            }else{
+                sb.append(arr[i]).append(",");
+            }
+
+        }
+        sb.append("]");
+        return sb.toString();
+    }
+
+
+
+}
+package StringJoiner;
+
+import java.util.StringJoiner;
+
+public class StringJoiner1 {
+    public static void main(String[] args) {
+//创建一个对象,并指定中间间隔符
+        StringJoiner sj = new StringJoiner("---");
+        //添加数据
+        sj.add("aa").add("bb").add("cc");
+        //打印
+        System.out.println(sj);
+    }
+}
+package StringJoiner;
+
+import java.util.StringJoiner;
+
+public class StringJoiner2 {
+    public static void main(String[] args) {
+        //创建一个对象 间隔符 开始标志 结束标志
+        StringJoiner sj = new StringJoiner(", ","[","]");
+        //添加数据
+        sj.add("1").add("2").add("3");
+        //长度
+        int length = sj.length();
+        System.out.println(length);
+        //转成字符串
+        sj.toString();
+        System.out.println(sj);
+    }
+}
