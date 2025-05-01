@@ -1,0 +1,3 @@
+             String heal = new String("思无邪").intern();
+                String heal2 = "思无邪";
+                System.out.println("治疗是否同步：" + (heal == heal2));
