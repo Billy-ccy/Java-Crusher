@@ -1,7 +1,6 @@
 package String;
 
 import java.util.Scanner;
-
 public class String5 {
     public static void main(String[] args) {
         //金额转换   0123456789    零壹贰叁肆伍陆柒捌玖
