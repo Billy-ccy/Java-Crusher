@@ -1,0 +1,166 @@
+心得:要学会看需求文档,并分析思路
+今天学习了八个小时,任务达成,写代码很投入,但思考时间还是慢,有些知识点还没弄熟,继续努力吧
+下午的三个小时,就搞这个学生管理系统的增删改查,自己用心去写出来的,基本没什么大问题
+1.判断集合没有内容  list.size() == 0  长度为0,说明集合没有内容
+2.loop :while(true)   可以命名,break loop; //跳出loop循环         System.exit(0);//停止虚拟机运行
+
+package StudentSystem;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class StudentSystem {
+    public static void main(String[] args) {
+        ArrayList<Student> list = new ArrayList<>();
+
+        loop:while (true) {
+        Student stu = new Student();
+        System.out.println("-----------学生管理系统-----------------");
+        System.out.println("1.添加学生");
+        System.out.println("2.删除学生");
+        System.out.println("3.修改学生");
+        System.out.println("4.查询学生");
+        System.out.println("5.退出");
+        Scanner sc = new Scanner(System.in);
+
+            System.out.println("请输入选项");
+            String choose = sc.next();
+            switch (choose){
+                case "1" -> addStudent(list,stu);
+                case "2" -> deleteStudent(list);
+                case "3" -> updateStudent(list,stu);
+                case "4" -> queryStudent(list);
+                case "5" -> {
+                    System.out.println("退出");
+                    //跳出名为loop的循环
+                   // break loop;
+                    System.exit(0);//停止虚拟机运行
+
+                }
+                default -> System.out.println("没有这个选项");
+
+            }
+
+        }
+
+    }
+    //干什么 判断id是否存在
+    //需要什么  id
+    //返回值
+    public static boolean judgeId(ArrayList<Student> list,String idNew){
+        for (int i = 0; i < list.size(); i++) {
+            String id = list.get(i).getId();
+            if(id.equals(idNew) ){
+                //存在
+                return true;
+            }
+        }
+        //不存在
+        return false;
+    }
+    public static void addStudent(ArrayList<Student> list,Student stu){
+
+        System.out.println("添加学生");
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+        System.out.println("请输入学生id");
+        String id = sc.next();
+
+        boolean flag = judgeId(list, id);//false 不存在  true 存在
+
+            if(!flag){//true
+                stu.setId(id);
+                break;//结束标志
+            }else{
+                System.out.println("id已存在");
+
+            }
+        }
+        System.out.println("请输入学生姓名");
+        String name = sc.next();
+        System.out.println("请输入学生年龄");
+        int age = sc.nextInt();
+        System.out.println("请输入学生地址");
+        String address = sc.next();
+
+
+
+        stu.setName(name);
+        stu.setAge(age);
+        stu.setAddress(address);
+
+        list.add(stu);
+
+
+
+    }
+
+    //根据对象里的id找到集合的索引
+    //需要什么 id 集合
+    //返回值  索引
+    public static int findIndex(String idNew , ArrayList<Student> list){
+
+        for (int i = 0; i < list.size(); i++) {
+         String id = list.get(i).getId();
+         if (id.equals(idNew)){
+             return i;
+         }
+        }
+        return -1;
+    }
+    public static void deleteStudent(ArrayList<Student> list){
+
+        Scanner sc = new Scanner(System.in);
+        System.out.println("删除学生");
+        System.out.println("请输入删除的学生id");
+        String idNew = sc.next();
+        int index = findIndex(idNew, list);
+        if(index == -1){
+            System.out.println("id不存在");
+        }else{
+            list.remove(index);
+        }
+
+
+    }
+    public static void updateStudent(ArrayList<Student> list,Student stu){
+        System.out.println("修改学生");
+        Scanner sc = new Scanner(System.in);
+        System.out.println("请输入修改的学生id");
+        String idNew = sc.next();
+        int index = findIndex(idNew, list);
+        if(index == -1){
+            System.out.println("id不存在");
+        }else{
+            System.out.println("请修改学生姓名");
+            String name = sc.next();
+            System.out.println("请修改学生年龄");
+            int age = sc.nextInt();
+            System.out.println("请修改学生地址");
+            String address = sc.next();
+            //重新写学生的姓名,年龄,地址
+            stu.setId(idNew);
+            stu.setName(name);
+            stu.setAge(age);
+            stu.setAddress(address);
+            //根据id找到索引值修改
+            list.set(index,stu);
+        }
+    }
+    public static void queryStudent(ArrayList<Student> list) {
+        System.out.println("查询学生");
+        //长度为0时,没有内容
+        if (list.size() == 0) {
+            System.out.println("当前无学生信息,请添加后再查询");
+            return;
+        }
+            for (int i = 0; i < list.size(); i++) {
+                    System.out.println("id\t姓名\t年龄\t家庭住址\t");
+                    Student student = list.get(i);
+                    System.out.println(student.getId() +"\t" + student.getName() + "\t"
+                            + student.getAge() + "\t" + student.getAddress() );
+
+            }
+        }
+    }
+
