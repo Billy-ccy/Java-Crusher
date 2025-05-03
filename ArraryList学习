@@ -1,0 +1,152 @@
+心得:今天上午8:40开始学,晚了十分钟,明早起十分钟
+现在是10;42 学完集合了,感觉不难,写代码很顺
+package ArrayList;
+
+import java.util.ArrayList;
+
+public class ArrayList1 {
+    public static void main(String[] args) {
+        //构造函数创建对象
+        ArrayList<String> list = new ArrayList<>();
+
+        //添加数据
+        list.add("aaa");
+        list.add("bbb");
+        System.out.println(list);
+        //删除数据
+        //1.直接删除元素
+        boolean b = list.remove("aaa");
+        System.out.println(b);
+        System.out.println(list);
+        //2.删除索引对应的值
+        String remove = list.remove(0);
+        System.out.println(remove);
+        System.out.println(list);
+
+        //3.修改
+        String ggg = list.set(0, "ggg");
+        System.out.println(ggg);
+        System.out.println(list);
+        //4.查询
+        String s = list.get(0);
+        System.out.println(s);
+
+        //5.遍历
+        for (int i = 0; i < list.size(); i++) {
+
+            String s1 = list.get(i);
+            System.out.println(s1);
+        }
+    //需求:定义一个集合，添加数字，并进行遍历遍历格式参照:[元素1,元素2,元素3]
+        //int包装类 Integer    char包装类Character
+        ArrayList<Integer> list1 = new ArrayList<>();
+        list1.add(1);
+        list1.add(2);
+
+        //遍历集合
+        System.out.print("[");
+        for (int i = 0; i < list1.size(); i++) {
+
+            //查询每一个元素
+
+            if(i == list1.size()-1){
+                System.out.print(list1.get(i));
+            }else{
+                System.out.print(list1.get(i) + ", ");
+            }
+        }
+        System.out.print("]");
+
+    }
+  //1.添加用户对象并判断是否存在
+        //main方法中定义一个集合，存入三个用户对象。用户属性为:id，username，password
+        // 定义一个方法，根据id查找对应的用户信息。
+        // 如果存在，返回索引
+        //如果不存在，返回-1
+
+        //创建对象
+        User u1 = new User("11","小花","123");
+        User u2 = new User("12","中花","124");
+        User u3 = new User("13","大花","125");
+
+        //创建集合
+        ArrayList<User> list = new ArrayList<>();
+        //添加对象
+        list.add(u1);
+        list.add(u2);
+        list.add(u3);
+        int judge = judge(list, "12");
+        System.out.println(judge);
+    }
+    //干什么 根据id查找对应的用户信息。
+    //需要什么 集合 id
+    //返回值 boolean
+
+    public static  int judge(ArrayList<User> list,String id
+    ){
+
+        for (int i = 0; i < list.size(); i++) {
+            User u = list.get(i);
+            if(u.getId().equals(id)){
+                return  i;
+            }
+
+        }
+       return  -1;
+    }
+}
+package ArrayList;
+
+import java.util.ArrayList;
+
+public class ArrayList5 {
+    public static void main(String[] args) {
+        //添加手机对象并返回要求的数据
+        //需求:
+        //定义javabean类:Phone
+        //Phone属性:品牌，价格。
+        // main方法中定义一个集合，存入三个手机对象。
+        // 分别为:小米，1000。苹果，8000。锤子2999
+        // 定义一个方法，将价格低于3000的手机信息返回。
+
+        //创建对象
+        Phone p1 = new Phone("小米",1000);
+        Phone p2 = new Phone("苹果",8000);
+        Phone p3 = new Phone("锤子",2999);
+
+        //创建集合
+        ArrayList<Phone> list = new ArrayList<>();
+        list.add(p1);
+        list.add(p2);
+        list.add(p3);
+        ArrayList<Phone> shouji = shouji(list);
+        for (int i = 0; i < shouji.size(); i++) {
+            Phone phone = shouji.get(i);
+            System.out.println(phone.getBrand() + ", "+phone.getPrice());
+
+        }
+
+
+    }
+    //干什么 将价格低于3000的手机信息 返回
+    //需要什么   集合
+    //返回值 集合
+    public static ArrayList<Phone> shouji(ArrayList<Phone> list){
+
+        //如果我们要返回多个数据，可以把这些数据先放到一个容器当中，再把容器返回
+        ArrayList<Phone> result = new ArrayList<>();
+
+        for (int i = 0; i < list.size(); i++) {
+            //把每个对象取出来
+           Phone phone = list.get(i);
+           //把对象中的价格取出来,再跟3000比较
+            if(phone.getPrice() < 3000){
+                result.add(phone);
+            }
+
+
+        }
+return result;
+    }
+}
+
