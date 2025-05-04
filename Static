@@ -1,0 +1,180 @@
+
+package a01static;
+//工具类
+public class ArrayUtil {
+
+    //定义数组工具类
+    //需求:在实际开发中，经常会遇到一些数组使用的工具类，请按照如下要求编写一个数组的工具类:ArrayUtil
+    //提供一个工具类方法printArr，
+    // 用于返回整数数组的内容，
+    // 返回的字符串格式如:[10,20,50,34,100](只考虑整数数组，且只考虑一维数组)
+    // 提供这样一个工具方法getAerage，
+    // 用于返回平均分。(只考虑浮点型数组，且只考虑一维数组定义一个测试类TestDemo，调用该工具类的工具方法，并返回结果。
+
+
+    //私有的构造方法 避免创建对象,没意义
+    private  ArrayUtil(){}
+//静态 方便调用
+    public  static String printArr(int[] arr){
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (int i = 0; i < arr.length; i++) {
+            if(i == arr.length-1){
+                sb.append(arr[i]);
+            }else{
+         sb.append(arr[i]).append(", ");}
+        }
+        sb.append("]");
+        return sb.toString();
+    }
+    public static double getAverage(double[] arr){
+double sum = 0;
+        for (int i = 0; i < arr.length; i++) {
+            sum = sum + arr[i];
+        }
+        double ave = sum/arr.length;
+        return ave;
+
+    }
+
+}
+
+
+package a01static;
+//测试类,测试工具类方法是否正确
+public class testDemo {
+    public static void main(String[] args) {
+        int[] arr ={10,20,30,40};
+        String s = ArrayUtil.printArr(arr);
+        double[] brr ={12,12,12};
+        double average = ArrayUtil.getAverage(brr);
+        System.out.println(s);
+        System.out.println(average);
+    }
+}
+
+
+
+
+
+package a02static;
+
+import java.util.ArrayList;
+
+public class ArrayListUtil {
+//    定义学生工具类
+//需求:定义一个集合，用于存储3个学生对象。
+// 学生类的属性为:name、age、gender
+// 定义一个工具类，用于获取集合中最大学生的年龄。
+
+    private ArrayListUtil(){}
+
+    public static int getMaxAge(ArrayList<Student> list){
+        int max = list.get(0).getAge();
+        for (int i =1; i < list.size(); i++) {
+
+            int age  = list.get(i).getAge();
+            if(max < age){
+                max = age;
+
+            }
+
+        }
+        return max;
+    }
+}
+
+
+
+package a02static;
+//javabean类
+public class Student {
+    //学生类的属性为:name、age、gender
+    private String name;
+    private int age;
+    private String gender;
+
+    public Student() {
+    }
+
+    public Student(String name, int age, String gender) {
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+    }
+
+    /**
+     * 获取
+     * @return name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * 设置
+     * @param name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * 获取
+     * @return age
+     */
+    public int getAge() {
+        return age;
+    }
+
+    /**
+     * 设置
+     * @param age
+     */
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    /**
+     * 获取
+     * @return gender
+     */
+    public String getGender() {
+        return gender;
+    }
+
+    /**
+     * 设置
+     * @param gender
+     */
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String toString() {
+        return "Student{name = " + name + ", age = " + age + ", gender = " + gender + "}";
+    }
+}
+package a02static;
+
+import java.util.ArrayList;
+
+//测试类
+public class testDemo {
+    public static void main(String[] args) {
+       // 1.创建集台用来存储学生对象
+        ArrayList<Student> list= new ArrayList<>();
+        //2.创建3个学生对象
+        Student s1 = new Student("小样",55,"男");
+        Student s2 = new Student("小样",24,"男");
+        Student s3 = new Student("小样",22,"男");
+        //3.把学生对象添加到集合当中
+        list.add(s1);
+        list.add(s2);
+        list.add(s3);
+        //4.调用工具类中的方法
+        int maxAge = ArrayListUtil.getMaxAge(list);
+        System.out.println(maxAge);
+    }
+}
+
