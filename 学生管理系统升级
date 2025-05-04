@@ -1,0 +1,741 @@
+心得:自己完成整个学生管理系统,花费7个小时.全程自己动脑写的,很棒,继续加油
+
+思考的难点
+1.只能是字母加数字的组合，但是不能是纯数字
+先循环获取username里面的每一个字符
+如果有一个字符不在'a'~'z''A'~'Z’'0’~’9'，那么当前用户名不符合条件
+统计一下用户名username当中有多少个字符在a-z A-Z
+判断一个个数，只有大于等于0才是满足要求的用户名
+2.int转成char 验证码
+'0' 48  (char) (0 + 48) ='0'   (char) (1 + 48 )= '1'
+
+package StudentSystem;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class StudentSystem {
+    public static void startStudentSystem() {
+        ArrayList<Student> list = new ArrayList<>();
+
+        loop:while (true) {
+        Student stu = new Student();
+        System.out.println("-----------学生管理系统-----------------");
+        System.out.println("1.添加学生");
+        System.out.println("2.删除学生");
+        System.out.println("3.修改学生");
+        System.out.println("4.查询学生");
+        System.out.println("5.退出");
+        Scanner sc = new Scanner(System.in);
+
+            System.out.println("请输入选项");
+            String choose = sc.next();
+            switch (choose){
+                case "1" -> addStudent(list,stu);
+                case "2" -> deleteStudent(list);
+                case "3" -> updateStudent(list,stu);
+                case "4" -> queryStudent(list);
+                case "5" -> {
+                    System.out.println("退出");
+                    //跳出名为loop的循环
+                   // break loop;
+                    System.exit(0);//停止虚拟机运行
+
+                }
+                default -> System.out.println("没有这个选项");
+
+            }
+
+        }
+
+    }
+    //干什么 判断id是否存在
+    //需要什么  id
+    //返回值
+    public static boolean judgeId(ArrayList<Student> list,String idNew){
+        for (int i = 0; i < list.size(); i++) {
+            String id = list.get(i).getId();
+            if(id.equals(idNew) ){
+                //存在
+                return true;
+            }
+        }
+        //不存在
+        return false;
+    }
+    public static void addStudent(ArrayList<Student> list,Student stu){
+
+        System.out.println("添加学生");
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+        System.out.println("请输入学生id");
+        String id = sc.next();
+
+        boolean flag = judgeId(list, id);//false 不存在  true 存在
+
+            if(!flag){//true
+                stu.setId(id);
+                break;//结束标志
+            }else{
+                System.out.println("id已存在");
+
+            }
+        }
+        System.out.println("请输入学生姓名");
+        String name = sc.next();
+        System.out.println("请输入学生年龄");
+        int age = sc.nextInt();
+        System.out.println("请输入学生地址");
+        String address = sc.next();
+
+
+
+        stu.setName(name);
+        stu.setAge(age);
+        stu.setAddress(address);
+
+        list.add(stu);
+
+
+
+    }
+
+    //根据对象里的id找到集合的索引
+    //需要什么 id 集合
+    //返回值  索引
+    public static int findIndex(String idNew , ArrayList<Student> list){
+
+        for (int i = 0; i < list.size(); i++) {
+         String id = list.get(i).getId();
+         if (id.equals(idNew)){
+             return i;
+         }
+        }
+        return -1;
+    }
+    public static void deleteStudent(ArrayList<Student> list){
+
+        Scanner sc = new Scanner(System.in);
+        System.out.println("删除学生");
+        System.out.println("请输入删除的学生id");
+        String idNew = sc.next();
+        int index = findIndex(idNew, list);
+        if(index == -1){
+            System.out.println("id不存在");
+        }else{
+            list.remove(index);
+        }
+
+
+    }
+    public static void updateStudent(ArrayList<Student> list,Student stu){
+        System.out.println("修改学生");
+        Scanner sc = new Scanner(System.in);
+        System.out.println("请输入修改的学生id");
+        String idNew = sc.next();
+        int index = findIndex(idNew, list);
+        if(index == -1){
+            System.out.println("id不存在");
+        }else{
+            System.out.println("请修改学生姓名");
+            String name = sc.next();
+            System.out.println("请修改学生年龄");
+            int age = sc.nextInt();
+            System.out.println("请修改学生地址");
+            String address = sc.next();
+            //重新写学生的姓名,年龄,地址
+            stu.setId(idNew);
+            stu.setName(name);
+            stu.setAge(age);
+            stu.setAddress(address);
+            //根据id找到索引值修改
+            list.set(index,stu);
+        }
+    }
+    public static void queryStudent(ArrayList<Student> list) {
+        System.out.println("查询学生");
+        //长度为0时,没有内容
+        if (list.size() == 0) {
+            System.out.println("当前无学生信息,请添加后再查询");
+            return;
+        }
+            for (int i = 0; i < list.size(); i++) {
+                    System.out.println("id\t姓名\t年龄\t家庭住址\t");
+                    //获取每一个学生对象
+                    Student student = list.get(i);
+
+                    System.out.println(student.getId() +"\t" + student.getName() + "\t"
+                            + student.getAge() + "\t" + student.getAddress() );
+
+            }
+        }
+    }
+
+package StudentSystem;
+
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Scanner;
+
+public class StudentSystem2 {
+    public static void main(String[] args) {
+
+        ArrayList<User> list = new ArrayList<>();
+        loop:
+        while (true) {
+
+            System.out.println("-----------欢迎来到学生管理系统-----------------");
+            System.out.println("1.登录");
+            System.out.println("2.注册");
+            System.out.println("3.忘记密码");
+            System.out.println("4.退出");
+            Scanner sc = new Scanner(System.in);
+
+            System.out.println("请输入选项");
+            String choose = sc.next();
+            switch (choose) {
+                case "1" -> login(list);
+                case "2" -> register(list);
+                case "3" -> updatePassword(list);
+                case "4" -> {
+                    System.out.println("退出");
+                    //跳出名为loop的循环
+                    // break loop;
+                    System.exit(0);//停止虚拟机运行
+
+                }
+                default -> System.out.println("没有这个选项");
+
+            }
+
+        }
+
+
+    }
+
+   //修改密码
+    public static void updatePassword(ArrayList<User> list){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("请输入用户名");
+        String userNameNew = sc.next();
+        int index = findIndex(list, userNameNew);
+        if (index == -1) {
+            System.out.println("用户名未注册");
+            return;
+        }else{
+            System.out.println("请输入身份证");
+            String shenFenNumNew = sc.next();
+            System.out.println("请输入手机号");
+            String phoneNumNew = sc.next();
+
+            User user = list.get(index);
+            String shenFenNum = user.getShenFenNum();
+            String phoneNum = user.getPhoneNum();
+//身份证和手机号验证成功
+            if(shenFenNum.equals(shenFenNumNew) && phoneNum.equals(phoneNumNew)){
+                System.out.println("身份证和手机号验证成功");
+                System.out.println("请输入新密码");
+                String passwordNew = sc.next();
+                //修改密码
+                user.setPassword(passwordNew);
+                System.out.println("修改成功");
+            }else{
+                System.out.println("修改失败");
+            }
+
+        }
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+    //登录功能
+    public static void login(ArrayList<User> list) {
+
+        Scanner sc = new Scanner(System.in);
+        System.out.println("请输入用户名");
+        String userNameNew = sc.next();
+        int index = findIndex(list, userNameNew);
+        if (index == -1) {
+            System.out.println("用户名未注册");
+            return;
+        } else {
+            for (int i = 0; i < 3; i++) {
+                System.out.println("请输入密码");
+                String passwordNew = sc.next();
+
+                String s = yanZhengMa();
+                System.out.println("验证码是:"+s);
+                System.out.println("请输入验证码");
+                String yanZhengMaNew = sc.next();
+
+                User user = list.get(index);
+                String password = user.getPassword();
+
+
+
+                if (password.equals(passwordNew) &&yanZhengMaNew.equalsIgnoreCase(s)) {
+                    System.out.println("登录成功");
+
+                    //创建对象调用方法,启动学生管理系统
+                    StudentSystem ss =new StudentSystem();
+                    ss.startStudentSystem();
+
+                    break;
+                } else {
+
+                    if(2-i == 0){
+                        System.out.println("没有机会了,请稍后再试");
+                        break;
+                    }
+                    else {
+                        System.out.println("密码或验证码不正确,你还有"+(2-i)+"次机会");
+                    }
+                }
+            }
+
+        }
+
+        }
+        //查索引
+    public static int findIndex(ArrayList<User> list, String s) {
+
+        for (int i = 0; i < list.size(); i++) {
+
+            String userName = list.get(i).getUserName();
+            if (userName.equals(s)) {
+                return i;
+            }
+        }
+        return -1;
+
+    }
+    //验证码
+    public static String yanZhengMa(){
+    //验证码
+    // 字符串可以是小写字母，也可以是大写字母，还可以是数字
+    // 规则:
+    //长度为5
+    //内容中是四位字母，1位数字。
+    //其中数字只有1位，但是可以出现在任意的位置
+
+    //定义数组,52个大小写英文字母
+    char[] arr = new char[52];
+    int num = 0;
+    for (int i = 0; i < arr.length; i++) {
+        if (i < 26) {
+            arr[i] = (char) (65 + i);
+        } else {
+            arr[i] = (char) (i + 71);
+        }
+    }
+    char[] arrNew = new char[5];
+
+    Random r = new Random();
+    for (int i = 0; i < 4; i++) {
+        int index = r.nextInt(52);
+        //把arr里的值随机取出四个放到arrNew数组中
+        arrNew[i] = arr[index];
+    }
+    int number = r.nextInt(10);
+    //根据ASCII码表,将int 转化成char  '0' 48
+    char c = (char) (number + 48);
+
+
+    arrNew[4] = c;
+    char temp = ' ';
+    for (int i = 0; i < arrNew.length; i++) {
+        int index = r.nextInt(arrNew.length);
+        temp = arrNew[index];
+        arrNew[index] = arrNew[4];
+        arrNew[4] = temp;
+    }
+    String s = new String(arrNew);
+    return s;
+}
+
+
+
+
+    //注册功能
+    public static void register(ArrayList<User> list) {
+        //1.用户名:键盘录入一个用户名,字符串
+        Scanner sc = new Scanner(System.in);
+        User user1;
+        while (true) {
+            System.out.println("请输入用户名");
+            String userName = sc.next();
+            boolean flag = contains(list, userName);//存在 true 不存在 false
+            if (flag) {
+                System.out.println("用户名已存在,请重新输入");
+            } else {
+
+                //用户名长度必须在3~15位之间
+                int length = userName.length();
+                if (length >= 3 && length <= 15) {
+                    String s = userNameStr(userName);
+                    if (s != "") {
+                        //将用户名放到集合中
+                        user1 = new User(s, "", "", "");
+                        list.add(user1);
+                        break;
+                    }
+                } else {
+                    System.out.println("输入的用户名格式不正确");
+                }
+
+
+            }
+
+        }
+
+        //2.密码:键盘输入两次，两次一致才可以进行注册。
+        while (true) {
+            System.out.println("请输入密码");
+            String password1 = sc.next();
+            System.out.println("请再次输入密码");
+            String password2 = sc.next();
+            if (password1.equals(password2)) {
+                //把密码放到user对象中
+                user1.setPassword(password1);
+                System.out.println("密码已存入");
+                break;
+            } else {
+                System.out.println("两次密码不一样");
+            }
+        }
+
+        //3，身份证号码需要验证。
+        // 验证要求:
+        //长度为18位
+        //不能以0为开头
+        //前17位，必须都是数字
+        // 最后为一位可以是数字，也可以是大写X或小写x
+
+        while (true) {
+            System.out.println("请输入身份证号码");
+            String s = sc.next();
+            boolean flag = judgeShenFenNum(s);
+            if (flag) {
+                user1.setShenFenNum(s);
+                System.out.println("身份证号码验证成功");
+                break;
+            } else {
+                System.out.println("输入的身份证号码错误");
+            }
+        }
+
+
+        //4.手机号码验证
+        //验证要求:
+        //长度为11位
+        //不能以0为开头
+        //必须都是数字
+        while (true) {
+            System.out.println("请输入手机号码");
+            String s = sc.next();
+            boolean flag = judgePhoneNum(s);
+            if (flag) {
+                user1.setPhoneNum(s);
+                System.out.println("手机号码验证成功");
+                break;
+            } else {
+                System.out.println("输入的手机号码错误");
+            }
+        }
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println(list.get(i));
+        }
+    }
+
+    public static boolean judgePhoneNum(String s) {
+        if (s.length() != 11) {
+            return false;
+        }
+        if (s.charAt(0) == '0') {
+            return false;
+        }
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c < '0' || c > '9') {
+                return false;
+            }
+
+        }
+        return true;
+
+    }
+
+    public static boolean judgeShenFenNum(String s) {
+
+        if (s.length() != 18) {
+            return false;
+        }
+        if (s.charAt(0) == '0') {
+            return false;
+        }
+        //前17位,全是数字
+        for (int i = 0; i < s.length() - 1; i++) {
+            char c = s.charAt(i);
+            //如果c没在0~9,就返回false
+            if (c < '0' || c > '9') {
+                return false;
+            }
+
+        }
+        //最后一位
+        char last = s.charAt(s.length() - 1);
+        if ((last < '0' || last > '9') && (last != 'X') && (last != 'x')) {
+            return false;
+        }
+
+        return true;
+
+    }
+
+    //不能是纯数字
+    //需要什么 用户名
+    //返回值 用户名
+    public static String noNum(String s) {
+        int count = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+//计数  是a~z 或者 A~Z的个数
+            if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) {
+                count++;
+            }
+
+        }
+//字母个数大于0 证明不是纯数字,返回不是纯数字的字符串
+        if (count > 0) {
+            return s;
+        } else {
+            System.out.println("输入的用户名格式不正确");
+        }
+        return "";
+
+    }
+
+    //用户名格式 只能是字母加数字的组合
+//需要什么   用户名
+    //返回值 用户名
+
+    public static String userNameStr(String s) {
+        String sNew = noNum(s);
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            //满足只能是字母加数字
+            if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9')) {
+//不是纯数字的字符串才返回
+                if (sNew != "") {
+
+                    return sNew;
+                }
+            } else {
+                System.out.println(" 输入的用户名格式不正确");
+            }
+        }
+
+        return "";
+    }
+
+
+    //判断用户名唯一
+    public static boolean contains(ArrayList<User> list, String s) {
+
+        for (int i = 0; i < list.size(); i++) {
+
+            String userName = list.get(i).getUserName();
+            if (userName.equals(s)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+}
+package StudentSystem;
+
+public class User {
+    private String userName;
+    private String password;
+    private String shenFenNum;
+    private String phoneNum;
+
+
+    public User() {
+    }
+
+    public User(String userName, String password, String shenFenNum, String phoneNum) {
+        this.userName = userName;
+        this.password = password;
+        this.shenFenNum = shenFenNum;
+        this.phoneNum = phoneNum;
+    }
+
+    /**
+     * 获取
+     * @return userName
+     */
+    public String getUserName() {
+        return userName;
+    }
+
+    /**
+     * 设置
+     * @param userName
+     */
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    /**
+     * 获取
+     * @return password
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * 设置
+     * @param password
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    /**
+     * 获取
+     * @return shenFenNum
+     */
+    public String getShenFenNum() {
+        return shenFenNum;
+    }
+
+    /**
+     * 设置
+     * @param shenFenNum
+     */
+    public void setShenFenNum(String shenFenNum) {
+        this.shenFenNum = shenFenNum;
+    }
+
+    /**
+     * 获取
+     * @return phoneNum
+     */
+    public String getPhoneNum() {
+        return phoneNum;
+    }
+
+    /**
+     * 设置
+     * @param phoneNum
+     */
+    public void setPhoneNum(String phoneNum) {
+        this.phoneNum = phoneNum;
+    }
+
+    public String toString() {
+        return "User{userName = " + userName + ", password = " + password + ", shenFenNum = " + shenFenNum + ", phoneNum = " + phoneNum + "}";
+    }
+}
+
+
+
+package StudentSystem;
+
+public class Student {
+    private String id;
+    private String name;
+    private  int age;
+    private String address;
+
+    public Student() {
+    }
+
+    public Student(String id, String name, int age, String address) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.address = address;
+    }
+
+    /**
+     * 获取
+     * @return id
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * 设置
+     * @param id
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    /**
+     * 获取
+     * @return name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * 设置
+     * @param name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * 获取
+     * @return age
+     */
+    public int getAge() {
+        return age;
+    }
+
+    /**
+     * 设置
+     * @param age
+     */
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    /**
+     * 获取
+     * @return address
+     */
+    public String getAddress() {
+        return address;
+    }
+
+    /**
+     * 设置
+     * @param address
+     */
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String toString() {
+        return "Student{id = " + id + ", name = " + name + ", age = " + age + ", address = " + address + "}";
+    }
+}
