@@ -1,0 +1,51 @@
+继承 
+1.定义 :可以让类跟类之间产生子父关系,Java中提供一个关键字extends
+2.子类(派生类)  父类(基类或超类)
+3.好处:提高代码复用性  子类在父类的基础上添加功能
+4.什么时候用继承  当类与类之间存在相同的内容  并满足子类是父类的一种
+5.格式 public class 子类 extends 父类
+6.继承的特点:java只支持单继承 ,不支持多继承,支持多层继承  每一个类都直接或间接继承于object
+
+先画图,从下往上  核心:先找到相同内容,子类是父类的一种    ---图片在oop-extends中
+再写代码,从上往下
+package a01;
+public class test {
+    public static void main(String[] args) {
+        //创建对象
+        JinMao jinMao =new JinMao();
+
+        jinMao.breakHome();
+        jinMao.drink();
+        jinMao.lookHome();
+
+    }
+}
+public class animals {
+    public void eat(){
+        System.out.println("吃饭");
+    }
+    public void drink(){
+        System.out.println("喝水");
+    }
+}
+
+public class cat extends animals{
+    public void catchMouse(){
+        System.out.println("抓老鼠");
+    }
+}
+
+public class dog extends animals{
+    public void lookHome(){
+        System.out.println("看家");
+    }
+}
+
+public class JinMao extends dog{
+    public void breakHome(){
+        System.out.println("金毛在拆家");
+    }
+}
+public class LiHua extends cat{
+}
+
