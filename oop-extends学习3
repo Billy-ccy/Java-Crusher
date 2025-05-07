@@ -109,7 +109,7 @@ public class Sp extends dog{
         System.out.println("吃骨头");
     }
 }
----------------------------------------------------------------------
+--------------------------------------------------------------------------------
 package a04gouzao;
 
 public class test {
@@ -142,6 +142,110 @@ public class Person {
     }
 }
 
+-------------------------------------------------------------------------------------
+
+package a05test;
+
+public class test {
+    public static void main(String[] args) {
+        cook c = new cook();
+
+        c.setId("1");
+        c.setName("张三");
+        c.setSalary(3000);
+        System.out.println(c.getId()+", "+c.getName()+", "+c.getSalary());
+        c.eat();
+        c.work();
+
+        Manager m = new Manager("2","李四",4000,100);
+        System.out.println(m.getId()+", "+m.getName()+", "+m.getSalary()+", "+m.getBonus());
+        m.eat();
+        m.work();
+
+    }
+    public class Employee {
+        private String id;
+        private String name;
+        private int salary;
+
+        public void work(){
+            System.out.println("在工作");
+        }
+        public void eat(){
+            System.out.println("吃米饭");
+        }
+
+        public Employee() {
+        }
+
+        public Employee(String id, String name, int salary) {
+            this.id = id;
+            this.name = name;
+            this.salary = salary;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public int getSalary() {
+            return salary;
+        }
+
+        public void setSalary(int salary) {
+            this.salary = salary;
+        }
+    }
+    public class cook extends Employee{
+        public cook() {
+        }
+
+        public cook(String id, String name, int salary) {
+            super(id, name, salary);
+        }
+
+        @Override
+        public void work() {
+            System.out.println("厨师炒菜");
+        }
+    }
+    public class Manager extends Employee{
+        private int bonus;
+
+        public void work(){
+            System.out.println("经理管理其他人");
+        }
+
+        public Manager() {
+
+        }
+
+        public Manager(String id, String name, int salary, int bonus) {
+            super(id, name, salary);
+            this.bonus = bonus;
+        }
+
+        public int getBonus() {
+            return bonus;
+        }
+
+        public void setBonus(int bonus) {
+            this.bonus = bonus;
+        }
+    }
+}
 
 
 
