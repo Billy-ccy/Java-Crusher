@@ -1,0 +1,157 @@
+package a04test;
+
+public class test {
+    public static void main(String[] args) {
+        Dog dog = new Dog(2,"黑颜色的");
+        Cat cat = new Cat(3,"灰颜色的");
+        Person p1 = new Person("老王",30);
+        p1.keepPet(dog,"骨头");
+        Person p2 = new Person("老李",25);
+        p2.keepPet(cat,"鱼");
+
+
+
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------
+  package a04test;
+
+public class Animals {
+    private int age;
+    private String color;
+
+    public Animals() {
+    }
+
+    public Animals(int age, String color) {
+        this.age = age;
+        this.color = color;
+    }
+
+    public void eat(String something){
+        System.out.println("吃"+something);
+    }
+
+    /**
+     * 获取
+     * @return age
+     */
+    public int getAge() {
+        return age;
+    }
+
+    /**
+     * 设置
+     * @param age
+     */
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    /**
+     * 获取
+     * @return color
+     */
+    public String getColor() {
+        return color;
+    }
+
+    /**
+     * 设置
+     * @param color
+     */
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String toString() {
+        return "Animals{age = " + age + ", color = " + color + "}";
+    }
+}
+---------------------------------------------------------------------------------------------------------------------------------------------
+  package a04test;
+
+public class Dog extends Animals{
+    public void lookHome(){
+        System.out.println("狗看家");
+    }
+
+    public Dog() {
+    }
+
+    public Dog(int age, String color) {
+        super(age, color);
+    }
+
+    @Override
+    public void eat(String something){
+        System.out.println(getAge()+"岁的"+getColor()+"狗两只前腿死死的抱住"+something+"猛吃");
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------
+package a04test;
+
+public class Cat extends Animals{
+    public void catchm(){
+        System.out.println("抓老鼠");
+    }
+
+    public Cat() {
+    }
+
+    public Cat(int age, String color) {
+        super(age, color);
+    }
+    @Override
+    public void eat(String something){
+        System.out.println(getAge()+"岁的"+getColor()+"猫眯着眼睛侧着头吃"+something);
+    }
+}
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+public class Person {
+    private String name;
+    private int age;
+    public void keepPet(Animals a,String something){
+        if(a instanceof Dog d){
+        System.out.println("年龄为"+age+"岁的"+name+"养了一只"
+                +d.getColor()+d.getAge()+"岁的狗");
+        d.eat(something);
+        d.lookHome();}
+        //判断a是否 是Cat类型 如果是的话,就强制类型转换
+        else if(a instanceof Cat c){
+            System.out.println("年龄为"+age+"岁的"+name+"养了一只"
+                    +c.getColor()+c.getAge()+"岁的猫");
+            c.eat(something);
+            c.catchm();
+
+        }
+
+
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public Person() {
+    }
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+}
+
