@@ -1,0 +1,46 @@
+final关键字
+方法 --->是最终方法,不能被重写
+类 --->最终类,不能被继承
+变量 ---> 叫做常量,只赋值一次,不能被修改(大写)  
+基本数据类型:变量的值不能修改   引用数据类型:地址值不能修改,内部属性值可修改
+
+权限修饰符 --->private<默认<protected<public
+使用规则:1.成员变量私有(private)2.方法公开
+特例:如果方法中的代码是抽取其他方法中共性代码,一般是私有的
+
+静态代码块 
+随着类的加载而加载,并且自动触发,执行一次
+格式  static{}
+
+********************************************************************************************************************************************************************************************
+   private static final String ADD_STUDENT = "1";
+    private static final String DELETE_STUDENT = "2";
+    private static final String UPDATE_STUDENT = "3";
+    private static final String QUERY_STUDENT = "4";
+    private static final String EXIT = "5";
+
+       switch (choose){
+                case ADD_STUDENT -> addStudent(list,stu);
+                case DELETE_STUDENT -> deleteStudent(list);
+                case UPDATE_STUDENT -> updateStudent(list,stu);
+                case QUERY_STUDENT -> queryStudent(list);
+                case EXIT -> {
+                    System.out.println("退出");
+                    //跳出名为loop的循环
+                   // break loop;
+                    System.exit(0);//停止虚拟机运行
+
+                }
+                default -> System.out.println("没有这个选项");
+
+            }
+
+==============================================================================
+   static ArrayList<Student> list = new ArrayList<>();
+
+    static {
+        //数据的初始化
+        Student student = new Student("002","张三",18,"家");
+        list.add(student);
+
+    }
