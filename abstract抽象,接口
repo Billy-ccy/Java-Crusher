@@ -1,0 +1,196 @@
+abstract
+1.抽象类:如果一个类中存在抽象方法,那么这个类 必须 声明为抽象类
+2.抽象方法:将共性的行为(方法)抽取到父类后,由于每一个子类执行的内容是不一样的,所以在父类中不能确定具体的方法体,该方法就定义为抽象类
+3.格式
+public abstract class 类名{
+public abstract 返回值类型 方法名(参数);
+}
+4.注意事项:抽象类的子类:要么重写抽象类中的所有抽象方法,要么是抽象类
+5.抽象类的作用:抽取共性时,无法确定方法体,就把方法定为抽象的
+强制让子类按照某种格式重写
+抽象方法所在类,必须是抽象类
+--------------------------------------------------------------------------------------------------
+接口 用interface关键字定义 是一个规则,不能改变
+public interface 接口名{
+抽象方法
+public abstract 返回值类型 方法名(参数);
+}
+接口和类之间是实现关系,通过implements关键字表示
+public class 类名 implements 接口名{}
+接口的子类:要么重写抽象类中的所有抽象方法,要么是抽象类
+注意:接口和类 可以单实现,多实现,可以在继承一个类的同时实现多个接口
+接口中成员的特点:
+1.成员变量:只能是常量,默认修饰符 public static final
+2.无构造方法
+3.成员方法:只能是抽象方法 默认修饰符 public abstract
+
+接口和接口的关系
+继承关系,单继承,多继承
+*********************************************************************************************************************************************************************************************
+package a01;
+
+public class test {
+    public static void main(String[] args) {
+        Student s = new Student("张三",23);
+        System.out.println(s.getName()+", "+s.getAge());
+    }
+}
+--------------------------------------------------------------------------------------------------
+
+//抽象类
+public abstract class Person {
+    private String name;
+    private int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public Person() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    //抽象方法
+    public abstract void work();
+}
+
+--------------------------------------------------------------------------------------------------
+
+public class Student extends Person{
+
+    public Student(String name, int age) {
+        super(name, age);
+    }
+
+    public Student() {
+    }
+
+    @Override
+    public void work() {
+        System.out.println("学生学习");
+    }
+}
+*********************************************************************************************************************************************************************************************
+package a02;
+
+public class test {
+    public static void main(String[] args) {
+        dog d = new dog("小狗",2);
+
+        System.out.println(d.getName()+","+d.getAge());
+        d.eat();
+        d.drink();
+        d.Swim();
+    }
+}
+--------------------------------------------------------------------------------------------------------
+
+public abstract class Animal {
+    private String name;
+    private int age;
+
+    public Animal(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public Animal() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void drink(){
+        System.out.println("喝水");
+    }
+    public abstract void eat();
+}
+--------------------------------------------------------------------------------------------------------
+
+public class dog extends Animal implements Swim{
+    public dog(String name, int age) {
+        super(name, age);
+    }
+
+    public dog() {
+    }
+
+    @Override
+    public void eat() {
+        System.out.println("吃骨头");
+    }
+
+    @Override
+    public void Swim() {
+        System.out.println("狗刨");
+    }
+}
+package a02;
+
+public class frog extends Animal{
+
+    public frog(String name, int age) {
+        super(name, age);
+    }
+
+    public frog() {
+    }
+
+    @Override
+    public void eat() {
+        System.out.println("吃虫子");
+    }
+}
+package a02;
+
+public class sheep extends Animal{
+    public sheep(String name, int age) {
+        super(name, age);
+    }
+
+    public sheep() {
+    }
+
+    @Override
+    public void eat() {
+        System.out.println("吃草");
+    }
+}
+--------------------------------------------------------------------------------------------------------
+
+//接口
+public interface Swim {
+
+    public abstract void Swim();
+
+
+}
