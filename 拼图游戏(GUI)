@@ -1,0 +1,63 @@
+JFrame 最外层窗体
+JMenuBar 最上面的菜单
+JLabel 管理图片和文字的容器
+*******************************************************************************************************************************************************************************************8
+创建窗体
+        JFrame loginFrame = new JFrame();
+        //设置高宽
+        loginFrame.setSize(488,430);
+        //设置标题
+         loginFrame.setTitle("拼图游戏");
+        //设置置顶
+        loginFrame.setAlwaysOnTop(true);
+        //设置关闭
+        loginFrame.setDefaultCloseOperation(3);
+        //设置界面居中
+        loginFrame.setLocationRelativeTo(null);
+        //取消默认的居中放置，只有取消了才会按照xy轴的形式添加组件
+        loginFrame.setLayout(null);
+        //显示窗体
+        loginFrame.setVisible(true);
+---------------------------------------------------------------------------------------------------
+创建菜单
+JMenuBar(整个菜单对象)
+JMenu(菜单)
+JMenuItem(菜单里的条目)
+       //初始化菜单
+        //创建整个的菜单对象
+        JMenuBar jMenuBar = new JMenuBar();
+        //创建菜单上的两个选项对象
+        JMenu functionJMenu = new JMenu("功能");
+        JMenu aboutJMenu = new JMenu("关于我们");
+//创建选项下面的条目对象
+        JMenuItem reLogin = new JMenuItem("重新登录");
+        JMenuItem reGame = new JMenuItem("重新游戏");
+        JMenuItem closeGame = new JMenuItem("关闭游戏");
+
+        JMenuItem account = new JMenuItem("公众号");
+
+        //将条目对象添加到对应的选项对象
+        functionJMenu.add(reLogin);
+        functionJMenu.add(reGame);
+        functionJMenu.add(closeGame);
+
+        aboutJMenu.add(account);
+
+        //将选项对象添加到整个菜单对象
+        jMenuBar.add(functionJMenu);
+        jMenuBar.add(aboutJMenu);
+
+
+        //设置显示菜单
+        this.setJMenuBar(jMenuBar);
+  ------------------------------------------------------------------------------------
+  设置图片
+     //创建一个图片对象
+       ImageIcon imageIcon = new ImageIcon(path + num + ".jpg");
+     //创建一个JLabel,管理容器
+       JLabel jLabel = new JLabel(imageIcon);
+     //指定图片位置
+       ]jLabel.setBounds(105 * j + 83, 105 * i + 134, 105, 105);
+     //把管理容器添加到界面上,this是界面对象
+       this.getContentPane().add(jLabel);
+--------------------------------------------------------------------------------------------
