@@ -1,0 +1,117 @@
+package a05BigInter;
+
+import java.math.BigInteger;
+import java.util.Random;
+
+public class BIgInterDemo1 {
+    public static void main(String[] args) {
+        //获取一个随机的大整数
+//        for (int i = 0; i < 100; i++) {
+//            BigInteger bit = new BigInteger(2,new Random());
+//            System.out.println(bit);
+//        }//2的二次方再减一
+
+        //获取一个指定的大整数
+        BigInteger bit = new BigInteger("100");
+        System.out.println(bit);
+
+        //获取指定进制的大整数
+        BigInteger bit2 = new BigInteger("100",2);
+        System.out.println(bit2);//0*2的0次方+0*2的一次方+1*2的2次方,二进制转成十进制
+
+        //静态方法获取对象,内部有优化 -16~16,对象不会再次创建
+        BigInteger bit3 = BigInteger.valueOf(-13);
+        BigInteger bit4 = BigInteger.valueOf(-13);
+        System.out.println(bit3 == bit4);//指向同一个对象
+
+        //对象一旦创建,内部记录的值不能改变
+        //只要进行计算就会产生新的BigInter对象
+        BigInteger bit5 = new BigInteger("10");
+        BigInteger bit6 = BigInteger.valueOf(2);
+        BigInteger add = bit5.add(bit6);
+        System.out.println(add == bit5);
+    }
+}
+*************************************************************************************************
+package a05BigInter;
+
+import java.math.BigInteger;
+
+public class BigInterDemo2 {
+    public static void main(String[] args) {
+//        public BigInteger add(BigInteger val) 加
+//        public BigInteger subtract(BigInteger val) 减
+//        public BigInteger multiply(BigInteger val) 乘
+//        public BigInteger divide(BigInteger val) 除
+//        public BigInteger[] divideAndRemainder(BigInteger val)  商和余数
+//        publicboolean equals(object x) 比较相同
+//        publicBigInteger pow(int exponent) 次幂
+//        publicBigInteger max/min(BigInteger val) 较大值 较小值
+//        publicint intValue(BigInteger val) 转成int类型整数,超出范围有误
+
+        BigInteger bd = BigInteger.valueOf(10);
+        BigInteger bd1 = BigInteger.valueOf(12);
+        BigInteger add = bd.add(bd1);
+        BigInteger subtract = bd.subtract(bd1);
+        BigInteger multiply = bd.multiply(bd1);
+        BigInteger divide = bd.divide(bd1);
+        BigInteger[] bigIntegers = bd.divideAndRemainder(bd1);
+
+        boolean equals = bd.equals(bd1);
+        BigInteger pow = bd.pow(2);
+        BigInteger max = bd.max(bd1);
+        BigInteger min = bd.min(bd1);
+        int i = bd.intValue();
+
+        System.out.println(add);
+        System.out.println(subtract);
+        System.out.println(multiply);
+        System.out.println(divide);
+        System.out.println(bigIntegers[0]);
+        System.out.println(bigIntegers[1]);
+        System.out.println(equals);
+        System.out.println(pow);
+        System.out.println(max);
+        System.out.println(min);
+        System.out.println(i);
+
+    }
+}
+*********************************************************************************************************************
+package a05BigInter;
+
+import java.math.BigDecimal;
+
+public class BigDecimalDemo1 {
+    public static void main(String[] args) {
+//字符串形式
+        BigDecimal bd1 = new BigDecimal("9");
+        //静态方法获取对象
+        BigDecimal bd2 = BigDecimal.valueOf(10);
+        BigDecimal bd3 =BigDecimal.valueOf(10);
+        System.out.println(bd1);
+        System.out.println(bd2);
+        //静态方法中,[0,10]整数,方法会返回已经创建好的对象,不会new新的对象
+        System.out.println(bd3 == bd2);
+    }
+}
+********************************************************************************************************************
+package a05BigInter;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
+public class BigDecimalDemo2 {
+    public static void main(String[] args) {
+//        public BigDecimal add(BigDecimal val) 加法
+//        public BigDecimal subtract(BigDecimal val) 减法
+//        public BigDecimal multiply(BigDecimal val) 乘法
+//        public BigDecimal divide(BigDecimal val) 除法
+//        public BigDecimal divide(BigDecimal val，精确几位，舍入模式)
+
+        BigDecimal bd1 = BigDecimal.valueOf(10.0);
+        BigDecimal bd2 = BigDecimal.valueOf(3.0);
+        BigDecimal divide = bd1.divide(bd2, 2, RoundingMode.HALF_UP);
+        System.out.println(divide);
+    }
+}
