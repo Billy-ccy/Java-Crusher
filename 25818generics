@@ -1,0 +1,231 @@
+package a03mygenerics;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
+public class GenericsDemo {
+    public static void main(String[] args) {
+        //没有泛型的时候，集合如何存储数据
+        //结论：
+        //如果我们没有给集合指定类型，默认认为所有的数据类型都是Object类型
+        //此时可以往集合添加任意的数据类型。
+        //带来一个坏处：我们在获取数据的时候，无法使用他的特有行为。
+
+        //此时推出了泛型，可以在添加数据的时候就把类型进行统一。
+        //而且我们在获取数据的时候，也省的强转了，非常方便。
+
+        //假设泛型没有明确,里面添加String类型元素,就是多态,取出来的元素,是object类型
+        //不能用String特有的方法,要想用,就要强转成String类型
+        //假设泛型是String
+        //泛型就像是保安,只有String类型,才能进去,到了里面,就又变成object
+        //出去,又以String形式出去
+
+        //1.创建集合的对象
+        ArrayList list = new ArrayList();
+
+        //2.添加数据
+        list.add(123);
+        //这就是多态 形参是object,string是子类
+        list.add("aaa");
+        //list.add(new Student("zhangsan",123));
+
+        //3.遍历集合获取里面的每一个元素
+        Iterator it = list.iterator();
+        while (it.hasNext()) {
+            Object next = it.next();
+
+            //多态的弊端是不能访问子类的特有功能
+           //obj.length();
+            // str.length();
+            System.out.println(next);
+        }
+        System.out.println(list.get(0));
+    }
+}
+------------------------------------------------------------------------------------------------------------------------------------------------
+package a03mygenerics;
+
+import java.util.List;
+
+public class GenericsDemo2 {
+    public static void main(String[] args) {
+        /*
+       当我们编写一个类,不确定数据类型,就定义泛型类
+       测试类
+         */
+        MyArraylist<String> list = new MyArraylist<>();
+
+        list.add("abc");
+        list.add("123");
+        String s = list.get(0);
+        System.out.println(s);
+        System.out.println(list);
+
+        MyArraylist<Integer> list2 = new MyArraylist<>();
+        list2.add(123);
+        System.out.println(list2);
+
+    }
+}
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+package a03mygenerics;
+
+import java.util.Arrays;
+//当我们编写一个类,不确定数据类型,就定义泛型类
+public class MyArraylist<E> {
+    //创建数组
+    Object[] obj = new Object[10];
+
+    //集合长度,添加元素的位置
+    //E:表示是不确定的类型。该类型在类名后面已经定义过了，
+    // e:形参的名字，变量名
+    int size;
+    public  boolean add(E e){
+        obj[size] = e;
+        size++;
+        return true;
+    }
+    //获取元素
+    //底层原理
+    //泛型就像是保安,只有E类型,才能进去,到了里面,就又变成object
+    //出去,又以E形式出去
+    public E get(int index){
+        Object o = obj[index];
+        //强制类型转换 大范围变小范围
+        return (E)o;
+    }
+
+    @Override
+    public String toString() {
+
+        StringBuilder b = new StringBuilder();
+        b.append("[");
+        for (int i = 0; i < size; i++) {
+            //String.valueOf 把所有类型的数据全都变成字符串
+            b.append(String.valueOf(obj[i]));
+
+            if (i == size - 1) {
+                return b.append(']').toString();
+            }
+            b.append(", ");
+        }
+        return "";
+    }
+}
+------------------------------------------------------------------------------------------------------------------------
+package a03mygenerics;
+
+import java.util.ArrayList;
+
+public class GenericsDemo3 {
+    public static void main(String[] args) {
+        /*
+    定义一个工具类：ListUtil
+    类中定义一个静态泛型方法addAll，用来添加集合中多个的元素。
+*/
+        MyArraylist<String> list = new MyArraylist<>();
+        ListUtil.addAll(list,"a","3","aas");
+        System.out.println(list);
+
+        MyArraylist<Integer> list2 = new MyArraylist<>();
+        ListUtil.addAll2(list2,1,2,34,56,6,7,8);
+        System.out.println(list2);
+    }
+}
+----------------------------------------------------------------------------------------------------------------------------------
+package a03mygenerics;
+
+import java.util.ArrayList;
+
+public class ListUtil {
+    //类中定义一个静态方法addAll，用来添加多个集合的元素。
+    /*
+     *   参数一：集合
+     *   参数二~最后：要添加的元素
+     *
+     * */
+
+    //私有化,防止实例化
+    //其他类无法通过 new ListUtil()创建对象
+    //明确类的用途,表明这个类仅用于调用静态方法,而不是创建对象
+    private ListUtil() {
+    }
+
+//泛型放到修饰符的后面
+    public static <E> boolean addAll(MyArraylist<E> list, E e1, E e2, E e3) {
+
+        list.add(e1);
+        list.add(e2);
+        list.add(e3);
+        return true;
+
+    }
+
+    public static <E> boolean addAll2(MyArraylist<E> list, E... e) {
+        for (E element : e) {
+            list.add(element);
+        }
+        return true;
+
+    }
+}
+-----------------------------------------------------------------------------------------------------------------------------------
+package a03mygenerics;
+
+import java.util.ArrayList;
+
+public class GenericsDemo5 {
+    public static void main(String[] args) {
+        /*
+         *   需求：
+         *       定义一个方法，形参是一个集合，但是集合中的数据类型不确定。
+         *
+         * */
+
+        ArrayList<ye> list1 = new ArrayList<>();
+        ArrayList<fu> list2 = new ArrayList<>();
+        ArrayList<zi> list3 = new ArrayList<>();
+        ArrayList<student> list4 = new ArrayList<>();
+        method(list1);
+        method(list2);
+       // method(list3);
+
+
+    }
+    /*
+     * 此时，泛型里面写的是什么类型，那么只能传递什么类型的数据。
+     * 弊端：
+     *      利用泛型方法有一个小弊端，此时他可以接受任意的数据类型
+     *      Ye  Fu   Zi    Student
+     *
+     * 希望：本方法虽然不确定类型，但是以后我希望只能传递Ye Fu Zi
+     *
+     * 此时我们就可以使用泛型的通配符：
+     *      ?也表示不确定的类型
+     *      他可以进行类型的限定
+     *      ? extends E: 表示可以传递E或者E所有的子类类型
+     *      ? super E:表示可以传递E或者E所有的父类类型
+     *
+     * 应用场景：
+     *      1.如果我们在定义类、方法、接口的时候，如果类型不确定，就可以定义泛型类、泛型方法、泛型接口。
+     *      2.如果类型不确定，但是能知道以后只能传递某个继承体系中的，就可以泛型的通配符
+     * 泛型的通配符：
+     *      关键点：可以限定类型的范围。
+     *
+     * */
+    public static void method(ArrayList<? super fu> L) {
+    }
+
+    class student {
+    }
+
+    class ye {
+    }
+
+    class fu extends ye {
+    }
+
+    class zi extends fu {
+    }
+}
