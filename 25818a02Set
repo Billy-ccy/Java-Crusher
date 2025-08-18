@@ -1,0 +1,289 @@
+package a04myset;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.function.Consumer;
+
+public class a01SetDemo1 {
+    public static void main(String[] args) {
+        //创建对象
+        //set是接口,实现类是HashSet
+        Set<String> s = new HashSet<>();
+        //添加元素
+        boolean add1 = s.add("1sd");
+        System.out.println(add1);
+        //set不重复
+        boolean add2 = s.add("1sd");
+        System.out.println(add2);
+
+        s.add("22s");
+        s.add("7h");
+        System.out.println(s);
+
+        //迭代器遍历
+        Iterator<String> iterator = s.iterator();
+        while ( iterator.hasNext()){
+            System.out.println(iterator.next());
+        }
+
+        //增强for遍历
+        for (String s1 : s) {
+            System.out.println(s1);
+        }
+
+        //lambda表达式遍历
+        s.forEach(src-> System.out.println(src));
+
+        System.out.println(s);
+    }
+}
+----------------------------------------------------------------------------------------------------------------------------------------------
+package a04myset;
+
+public class hashSetDemo {
+    public static void main(String[] args) {
+      /*  哈希值:
+        对象的整数表现形式
+        1.如果没有重写hashcode方法，底层是地址值,不同对象计算出的哈希值是不同的
+        2.如果已经重写hashcode方法，不同的对象只要属性值相同，计算出的哈希值就是一样的
+        3.但是在小部分情况下，不同的属性值或者不同的地址值计算出来的哈希值也有可能一样。(哈希碰撞)
+
+        hashSet底层是哈希表 数组+链表+红黑树
+        特点:无序 不重复 无索引
+
+        无序:
+        取的时候:
+        遍历是从数组0开始,当遇到链表,从头结点到尾结点遍历链表.
+        顺序从左到右,与链表从上到下,再继续从左到右.
+        存的时候:
+        首先,通过 哈希值 确定元素在数组上的位置,该位置是null,元素直接存,
+        不是null,再通过equals()判断是不是重复
+        重复,直接舍弃,不重复就挂在下面,形成链表,
+        当链表长度>8且数组长度>=64,该链表就变成红黑树
+
+        不重复:如上
+        无索引:数据结构复杂
+
+
+
+       */
+        Student s1 = new Student("zs",19);
+        Student s2 = new Student("ls",18);
+        Student s5 = new Student("ls",18);
+        String s3 = "abc";
+        String s4 = "acD";
+
+        //哈希碰撞
+        System.out.println(s3.hashCode());
+        System.out.println(s4.hashCode());
+//属性值相同,返回true
+        System.out.println(s2.equals(s5));
+        System.out.println(s1.hashCode());
+        System.out.println(s2.hashCode());
+    }
+}
+------------------------------------------------------------------------------------------------------------------------------------------------
+package a04myset;
+
+import java.util.LinkedHashSet;
+
+public class linkedHashSetDemo {
+    public static void main(String[] args) {
+        //likedHashSet特点:有序,不重复,无索引
+        //有序:底层数组+双链表+红黑树
+        //双链表记录存储顺序
+        Student s1 = new Student("zs",18);
+        Student s2 = new Student("ws",17);
+        Student s3 = new Student("as",19);
+        Student s4 = new Student("zs",18);
+
+        LinkedHashSet<Student> lhs = new LinkedHashSet<>();
+        lhs.add(s1);
+        lhs.add(s2);
+        lhs.add(s3);
+        lhs.add(s4);
+        System.out.println(lhs);
+
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------
+package a04myset;
+
+import java.util.Objects;
+
+public class Student {
+    private String name;
+    private int age;
+
+    public Student() {
+    }
+
+    public Student(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    /**
+     * 获取
+     *
+     * @return name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * 设置
+     *
+     * @param name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * 获取
+     *
+     * @return age
+     */
+    public int getAge() {
+        return age;
+    }
+
+    /**
+     * 设置
+     *
+     * @param age
+     */
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            //this是调用者,当前对象,比较另一个对象的地址值
+            //如果是同一个对象,就返回true
+            return true;
+
+        if (o == null || getClass() != o.getClass())
+            return false;//判断两个对象是不是同一个类
+
+        Student student = (Student) o;
+        return this.age == student.age && Objects.equals(this.name, student.name);
+    }
+
+    //重写原因就是
+    //底层是地址值,哈希值肯定不一样
+    //重写之后,不同对象属性值一样,哈希值也一样.
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, age);
+    }
+
+    public String toString() {
+        return "Student{name = " + name + ", age = " + age + "}";
+    }
+}
+-----------------------------------------------------------------------------------------------------------------------------
+package a04myset;
+
+import java.util.Iterator;
+import java.util.TreeSet;
+import java.util.function.Consumer;
+
+public class TreeSetDemo {
+    public static void main(String[] args) {
+        //TreeSet底层是红黑树
+        //小的放左边,大的放右边,一样的舍弃.遍历是按照中序遍历从小到大
+        //特点:可排序,不重复,无索引
+        TreeSet<Integer> ts = new TreeSet<>();
+        ts.add(1);
+        ts.add(4);
+        ts.add(3);
+        ts.add(2);
+        ts.add(1);
+
+        Iterator<Integer> iterator = ts.iterator();
+        while (iterator.hasNext()){
+            System.out.println(iterator.next());
+        }
+        System.out.println("------------------------");
+        for (Integer t : ts) {
+            System.out.println(t);
+        }
+        System.out.println("------------------------");
+        ts.forEach(
+           integer -> System.out.println(integer));
+
+
+    }
+}
+-----------------------------------------------------------------------------------------------------------
+package a04myset;
+
+import java.util.TreeSet;
+
+public class TreeSetDemo2 {
+    public static void main(String[] args) {
+       /* 需求:创建Treeset集合，并添加3个教师对象学生对象属性:
+        姓名，年龄。
+        要求按照教师的年龄进行排序
+        同年龄按照姓名字母排列(暂不考虑中文)
+        同姓名，同年龄认为是同一个人
+        方式一:
+        默认的排序规则/自然排序
+        student实现comparable接口，重写里面的抽象方法，再指定比较规则*/
+        TreeSet<Teacher> ts = new TreeSet<>();
+        ts.add(new Teacher("zs",18));
+        ts.add(new Teacher("hhh",18));
+        ts.add(new Teacher("zs",18));
+        ts.add(new Teacher("a",18));
+        ts.add(new Teacher("z",17));
+        ts.add(new Teacher("aaa",18));
+        for (Teacher t : ts) {
+            System.out.println(t);
+        }
+
+    }
+}
+------------------------------------------------------------------------------------------------------------------------------
+package a04myset;
+
+import java.util.Comparator;
+import java.util.TreeSet;
+
+public class TreeSetDemo3 {
+    public static void main(String[] args) {
+//第二种方式 比较器排序
+//        TreeSet<String> ts = new TreeSet<>(new Comparator<String>() {
+//            @Override
+//            public int compare(String o1, String o2) {
+//                //o1表示要添加的元素,o2表示已经在红黑树的元素
+//                //负数:表示当前要添加的元素是小的,放在左边
+//                //正数:表示当前要添加的元素是大的,放在右边
+//                //比较长度,从小到大
+//                int i = o1.length() - o2.length();
+//                //0:长度相同,比较首字母
+//                i = i == 0 ? o1.compareTo(o2) : i;
+//                return i;
+//            }
+//        });
+        TreeSet<String> ts = new TreeSet<>((o1,o2)->{
+                int i = o1.length() - o2.length();
+                i = i == 0 ? o1.compareTo(o2) : i;
+                return i;
+            });
+        ts.add("c");
+        ts.add("ab");
+        ts.add("df");
+        ts.add("qwer");
+        for (String t : ts) {
+            System.out.println(t);
+        }
+
+    }
+}
+
