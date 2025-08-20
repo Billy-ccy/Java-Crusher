@@ -1,0 +1,686 @@
+package a01Map;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class mapDemo {
+    public static void main(String[] args) {
+        //创建集合
+        Map<String,String> m = new HashMap<>();
+        //添加元素
+        //添加/覆盖
+        //添加元素,键不存在时,直接添加键值对,返回null
+        // 键存在,将原先的键值对覆盖,返回被覆盖的值
+        m.put("周深","李克勤");
+        m.put("单依纯","王力宏");
+        m.put("崔晓阳","崔大洋");
+        String s = m.put("周深", "新裤子乐队");
+        System.out.println(s);
+        System.out.println(m);
+        System.out.println("--------------------");
+        //删除元素
+        m.remove("崔晓阳");
+        System.out.println(m);
+        System.out.println("--------------------");
+        //判断是否包含指定的键
+        boolean cKey = m.containsKey("周深");
+        System.out.println(cKey);
+        System.out.println("--------------------");
+        //判断是否包含指定的值
+        boolean cValue = m.containsValue("王力宏");
+        System.out.println(cValue);
+        System.out.println("--------------------");
+        //判断集合是否为空
+        boolean empty = m.isEmpty();
+        System.out.println(empty);
+        System.out.println("--------------------");
+        //集合长度
+        System.out.println(m.size());
+        //消除元素
+        m.clear();
+        System.out.println(m);
+
+
+    }
+}
+----------------------------------------------------------------------------------------------------------------------
+package a01Map;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
+public class mapDemo2 {
+    public static void main(String[] args) {
+        Map<String,String> m = new HashMap<>();
+        m.put("周深","李克勤");
+        m.put("单依纯","王力宏");
+        m.put("崔晓阳","崔大洋");
+        //遍历方式一 键找值
+        //先把键放到单列集合中
+        Set<String> s = m.keySet();
+        //迭代器遍历set集合,获取每一个键
+        Iterator<String> iterator = s.iterator();
+        while (iterator.hasNext()){
+            String key = iterator.next();
+            //通过键,获取对应的值
+            String value = m.get(key);
+            System.out.println(key + "=" + value);
+        }
+    }
+}
+----------------------------------------------------------------------------------------------------------------
+package a01Map;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Consumer;
+
+public class mapDemo3 {
+    public static void main(String[] args) {
+        //Map集合的第二种遍历方式 键值对
+//三个课堂练习:
+//练习一:通过键值对对象进行遍历map集合，要求:装着键值对对象的单列集合使用增强for的形式进行遍历//
+// 练习二:通过键值对对象进行遍历map集合，要求:装着键值对对象的单列集合使用迭代器的形式进行遍历
+// 练习三:通过键值对对象进行遍历map集合，要求:装着键值对对象的单列集合使用1ambda的形式进行遍历
+
+        //创建集合
+        Map<String, String> m = new HashMap<>();
+        //添加元素
+        m.put("周深", "李克勤");
+        m.put("单依纯", "王力宏");
+        m.put("崔晓阳", "崔大洋");
+        //获取集合中所有键值对,放到set集合中,方法返回Set集合
+        Set<Map.Entry<String, String>> entries = m.entrySet();
+        //遍历键值对
+        for (Map.Entry<String, String> entry : entries) {
+            //获取键
+            String key = entry.getKey();
+            //获取值
+            String value = entry.getValue();
+            System.out.println(key + "=" + value);
+        }
+        System.out.println("---------------------------------");
+        Iterator<Map.Entry<String, String>> iterator = entries.iterator();
+        while (iterator.hasNext()){
+            Map.Entry<String, String> next = iterator.next();
+            String key = next.getKey();
+            String value = next.getValue();
+            System.out.println(key + "=" + value);
+        }
+        System.out.println("------------------------------------");
+
+        entries.forEach(s ->{
+                String key = s.getKey();
+                String value = s.getValue();
+                System.out.println(key + "=" + value);
+            }
+        );
+    }
+}
+----------------------------------------------------------------------------------------------------------------
+package a01Map;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.BiConsumer;
+
+public class mapDemo4 {
+    public static void main(String[] args) {
+//第三种遍历方式 lambda表达式
+        //底层原理,就是第二种遍历方式 键值对
+        Map<String,String> m = new HashMap<>();
+        m.put("周深", "李克勤");
+        m.put("单依纯", "王力宏");
+        m.put("崔晓阳", "崔大洋");
+        m.forEach(
+           (key,value)-> System.out.println(key + "=" + value)
+        );
+    }
+}
+
+----------------------------------------------------------------------------------------------------------------
+package a02HashMap;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.BiConsumer;
+
+import static java.util.Objects.hash;
+
+public class HashMapDemo {
+    public static void main(String[] args) {
+        /*需求
+        创建一个HashMap集合，键是学生对象(Student)，值是籍贯(String)。
+        存储三个键值对元素，并遍历
+        要求:同姓名，同年龄认为是同一个学生*/
+
+        //创建集合
+        HashMap<Student,String> hm = new HashMap<>();
+        //创建对象
+        Student s1 = new Student("zs",16);
+        Student s2 = new Student("ls",15);
+        Student s3 = new Student("Aa",16);
+        Student s4 = new Student("BB",16);
+        Student s5 = new Student("ls",15);
+        hm.put(s1,"河北");
+        hm.put(s2,"吉林");
+        hm.put(s3,"北京");
+        //哈希冲突
+        System.out.println(s3.hashCode());
+        System.out.println(s4.hashCode());
+        //通过键计算哈希值,确定数组位置
+        hm.put(s4,"上海");
+        //计算哈希值,确定数组位置,发现s5要存入的位置已经有s2了,
+        //判断s5和s2的属性值,s5和s2属性值相同(内容相同),s5就覆盖s2的内容
+        hm.put(s5,"山东");
+
+
+        //遍历集合
+
+        //键找值
+        Set<Student> s = hm.keySet();
+        for (Student key : s) {
+            String value = hm.get(key);
+            System.out.println(key +"="+ value);
+        }
+        System.out.println("------------------------");
+        //键值对
+        Set<Map.Entry<Student, String>> entries = hm.entrySet();
+        for (Map.Entry<Student, String> entry : entries) {
+            Student key = entry.getKey();
+            String value = entry.getValue();
+            System.out.println(key +"="+ value);
+        }
+
+        System.out.println("------------------------");
+        hm.forEach(new BiConsumer<Student, String>() {
+            @Override
+            public void accept(Student key, String value) {
+                System.out.println(key+"="+value);
+            }
+        });
+    }
+}
+
+----------------------------------------------------------------------------------------------------------------
+package a02HashMap;
+
+import java.util.*;
+
+public class HashMapDemo2 {
+    public static void main(String[] args) {
+        /*
+        需求
+某个班级80名学生，现在需要组成秋游活动，
+班长提供了四个景点依次是(A、B、C、D),每个学生只能选择一个景点，
+请统计出最终哪个景点想去的人数最多。
+         */
+
+        //1.学生投票
+//定义数组存景点
+        String[] arr = {"A","B","C","D"};
+        //创建集合存80名学生抽到的景点
+        // 因为元素可重复,选arraylist集合
+        ArrayList<String> list = new ArrayList<>();
+        //80名学生随机抽
+        Random r = new Random();
+        for (int i = 0; i < 80; i++) {
+            //随机索引
+            int index = r.nextInt(arr.length);
+            //将随机索引对应的景点,存到集合中
+             list.add(arr[index]);
+        }
+
+        //2.统计每个景点投票的个数
+        //创建hashmap集合,景点-->键  景点次数-->值
+        HashMap<String,Integer> hm = new HashMap<>();
+        for (String name : list) {
+            if(hm.containsKey(name)){
+                //存在
+                //就获取值,值+1,再放到集合中
+                Integer num = hm.get(name);
+                num++;
+                hm.put(name,num);
+            }else{
+                //不存在,就直接放到集合中
+                hm.put(name,1);
+            }
+        }
+        System.out.println(hm);
+
+
+        //3.四个景点投票数找最大值
+//        Integer a = hm.get("A");
+//        Integer b = hm.get("B");
+//        Integer c = hm.get("C");
+//        Integer d = hm.get("D");
+//        int max = Integer.max(a, b);
+//        int max1 = Integer.max(c, d);
+//        int max2 = Integer.max(max, max1);
+//        System.out.println(max2);
+
+        int max = 0;
+        Set<Map.Entry<String, Integer>> entries = hm.entrySet();
+        for (Map.Entry<String, Integer> entry : entries) {
+            if(entry.getValue() > max){
+                max = entry.getValue();
+            }
+        }
+        System.out.println(max);
+
+
+        //4.遍历集合,找最大值的键
+     //   Set<Map.Entry<String, Integer>> entries = hm.entrySet();
+        for (Map.Entry<String, Integer> entry : entries) {
+           if(entry.getValue() == max){
+               System.out.println(entry.getKey());
+           }
+        }
+    }
+}
+
+----------------------------------------------------------------------------------------------------------------
+package a02HashMap;
+
+import java.util.LinkedHashMap;
+
+public class LinkedHashMapDemo {
+    private Object put;
+
+    public static void main(String[] args) {
+        LinkedHashMap<String,Integer> lhm = new LinkedHashMap<>();
+        lhm.put("zs",18);
+        lhm.put("zs",19);
+        lhm.put("ls",18);
+        lhm.put("lS",18);
+        System.out.println(lhm);
+
+    }
+}
+
+----------------------------------------------------------------------------------------------------------------
+package a02HashMap;
+
+import java.util.Objects;
+
+public class Student {
+    private String name;
+    private int age;
+
+    public Student() {
+    }
+
+    public Student(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    /**
+     * 获取
+     * @return name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * 设置
+     * @param name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * 获取
+     * @return age
+     */
+    public int getAge() {
+        return age;
+    }
+
+    /**
+     * 设置
+     * @param age
+     */
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return age == student.age && Objects.equals(name, student.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, age);
+    }
+
+    public String toString() {
+        return "Student{name = " + name + ", age = " + age + "}";
+    }
+}
+
+----------------------------------------------------------------------------------------------------------------
+package a03TreeMap;
+
+import java.util.Comparator;
+import java.util.TreeMap;
+
+public class TreeMapDemo {
+    public static void main(String[] args) {
+        TreeMap<Integer,String> tm = new TreeMap<>(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+               //升序
+                // return o1 - o2;
+                //降序
+                return o2 - o1;
+            }
+        });
+        tm.put(4,"脉动");
+        tm.put(1,"水杯");
+        tm.put(3,"笔");
+        tm.put(2,"橡皮");
+        System.out.println(tm);
+    }
+}
+
+----------------------------------------------------------------------------------------------------------------
+package a03TreeMap;
+
+import java.util.TreeMap;
+
+public class TreeMapDemo2 {
+    public static void main(String[] args) {
+        /*
+            需求2:
+键:学生对象
+值:籍贯
+要求:按照学生年龄的升序排列，年龄一样按照姓名的字母排列，同姓名年龄视为同一个人。
+         */
+        TreeMap<Student2,String> tm = new TreeMap<>();
+        Student2 s1 = new Student2("zs",18);
+        Student2 s2 = new Student2("zs",19);
+        Student2 s3 = new Student2("ww",17);
+        tm.put(s1,"河北");
+        tm.put(s2,"吉林");
+        tm.put(s3,"山东");
+        System.out.println(tm);
+    }
+}
+
+----------------------------------------------------------------------------------------------------------------
+package a03TreeMap;
+
+import java.util.Objects;
+
+public class Student2 implements Comparable<Student2>{
+    private String name;
+    private int age;
+
+    public Student2() {
+    }
+
+    public Student2(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    /**
+     * 获取
+     * @return name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * 设置
+     * @param name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * 获取
+     * @return age
+     */
+    public int getAge() {
+        return age;
+    }
+
+    /**
+     * 设置
+     * @param age
+     */
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+
+
+
+
+
+    public String toString() {
+        return "Student2{name = " + name + ", age = " + age + "}";
+    }
+
+    @Override
+    public int compareTo(Student2 o) {
+        //按照学生年龄的升序排列，年龄一样按照姓名的字母排列，同姓名年龄视为同一个人。
+//this:表示当前要添加的元素
+//o:表示已经在红黑树中存在的元素
+//返回值:
+//负数:表示当前要添加的元素是小的，存左边
+// 正数:表示当前要添加的元素是大的，存右边
+// 0:表示当前要添加的元素已经存在，舍弃
+        int i = getAge() - o.getAge();
+        i = i == 0 ? getName().compareTo(o.getName()) : i;
+        return i;
+    }
+}
+----------------------------------------------------------------------------------------------------------------
+
+package a03TreeMap;
+
+import java.util.*;
+import java.util.function.BiConsumer;
+
+public class TreeSetDemo3 {
+    public static void main(String[] args) {
+        /*
+        需求:字符串“aababcabcdabcde’
+请统计字符串中每一个字符出现的次数，并按照以下格式输出输出结果:
+a(5)b(4)c(3)d(2)e(1)
+         */
+        String s = "aababcabcdabcde";
+      //可排序就用TreeMap
+        TreeMap<Character,Integer> tm = new TreeMap<>();
+//字符串遍历
+        for (int i = 0; i < s.length(); i++) {
+            //获取每一个字符
+           char c = s.charAt(i);
+           //判断集合是否包含键
+          if(tm.containsKey(c)){
+              //存在
+              //获取该键的值
+              Integer count = tm.get(c);
+              count++;
+              //覆盖值
+              tm.put(c,count);
+
+          }else{
+              //不存在
+              tm.put(s.charAt(i),1);
+          }
+        }
+//字符串拼接
+        StringBuilder sb = new StringBuilder();
+//        Set<Map.Entry<Character, Integer>> entries = tm.entrySet();
+//        for (Map.Entry<Character, Integer> entry : entries) {
+//            Character key = entry.getKey();
+//            Integer value = entry.getValue();
+//            sb.append(key).append("(").append(value).append(")");
+//        }
+        //----------------------------------------
+        //遍历集合,lambda表达式,打印结果
+        tm.forEach(( key, value)->sb.append(key).append("(").append(value).append(")"));
+        System.out.println(sb);
+        //----------------------------------------
+        StringJoiner sj = new StringJoiner("","","");
+        tm.forEach(( key, value)->sj.add(key + "").add("(").add(value+"").add(")"));
+        System.out.println(sj);
+
+    }
+}
+----------------------------------------------------------------------------------------------------------------
+public class args {
+    public static void main(String[] args) {
+        //可变参数
+        System.out.println(getSum(1, 2, 3));
+    }
+    public static int getSum(int...args){
+        int sum =0;
+        for (int num : args) {
+             sum = sum + num;
+        }
+        return sum;
+    }
+}
+
+----------------------------------------------------------------------------------------------------------------
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+public class CollectionsDemo {
+    public static void main(String[] args) {
+        //集合的工具类
+        List<String> list = new ArrayList<>();
+        Collections.addAll(list,"a","b","f","d","s");
+        System.out.println(list);
+        System.out.println("-------------------------");
+        Collections.shuffle(list);
+        System.out.println(list);
+        System.out.println("-------------sort默认规则--------------------------");
+        Collections.sort(list);
+        System.out.println(list);
+
+        System.out.println("-------------sort自己指定规则规则--------------------------");
+        Collections.sort(list, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return o2.compareTo(o1);
+            }
+        });
+        System.out.println(list);
+
+        System.out.println("-------------binarySearch--------------------------");
+        //需要集合有序
+        List<Integer> list1 = new ArrayList<>();
+        Collections.addAll(list1,1,2,3,4,5,6,7,8);
+        System.out.println(Collections.binarySearch(list1, 1));
+        System.out.println(Collections.binarySearch(list1, 5));
+        System.out.println(Collections.binarySearch(list1, 7));
+
+        System.out.println("-------------copy--------------------------");
+        //把list中的元素拷贝到list2中
+        //会覆盖原来的元素
+        //注意点：如果list的长度 > list2的长度，方法会报错
+         List<String> list2 = new ArrayList<>();
+         Collections.addAll(list2,"h","h","h","h","h","h");
+         Collections.copy(list2,list);
+        System.out.println(list2);
+        System.out.println("-------------fill--------------------------");
+        //把集合中现有的所有数据，都修改为指定数据
+        Collections.fill(list1,0);
+        System.out.println(list1);
+        System.out.println("-------------max/min--------------------------");
+        //求最大值或者最小值
+        System.out.println(Collections.max(list));
+        System.out.println(Collections.min(list));
+
+        System.out.println("-------------max/min指定规则--------------------------");
+        // String中默认是按照字母的abcdefg顺序进行排列的
+        // 现在我要求最长的字符串
+        // 默认的规则无法满足，可以自己指定规则
+        // 求指定规则的最大值或者最小值
+        List<String> list3 = new ArrayList<>();
+        Collections.addAll(list3,"a","2378","kk","sad");
+        String max = Collections.max(list3, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return o1.length() - o2.length();
+            }
+        });
+        System.out.println(max);
+        System.out.println("-------------swap--------------------------");
+
+        Collections.swap(list,1,2);
+        System.out.println(list);
+    }
+}
+
+----------------------------------------------------------------------------------------------------------------
+public class Student3 {
+    private String name;
+    private String gender;
+
+    public Student3() {
+    }
+
+    public Student3(String name, String gender) {
+        this.name = name;
+        this.gender = gender;
+    }
+
+    /**
+     * 获取
+     * @return name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * 设置
+     * @param name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * 获取
+     * @return gender
+     */
+    public String getGender() {
+        return gender;
+    }
+
+    /**
+     * 设置
+     * @param gender
+     */
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String toString() {
+        return "Student3{name = " + name + ", gender = " + gender + "}";
+    }
+}
+
